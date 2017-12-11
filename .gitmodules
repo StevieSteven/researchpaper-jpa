@@ -1,0 +1,3 @@
+[submodule "lib/graphql-jpa"]
+	path = lib/graphql-jpa
+	url = git@github.com:lestard/graphql-jpa.git

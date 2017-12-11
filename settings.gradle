@@ -1,0 +1,4 @@
+rootProject.name = 'GraphQL-Bloggie'
+
+include "backend/data"
+include "lib/graphql-jpa"
