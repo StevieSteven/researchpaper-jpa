@@ -14,11 +14,7 @@ public class Category extends BaseEntity {
     @OneToOne(fetch= FetchType.EAGER)
     private Category parent;
 
-    @ManyToMany
-    @JoinTable(
-            name="products_categories",
-            joinColumns=@JoinColumn(name="categories_id", referencedColumnName="ID"),
-            inverseJoinColumns=@JoinColumn(name="product_id", referencedColumnName="ID"))
+    @OneToMany(mappedBy = "category")
     private final List<Product> products = new ArrayList<>();
 
     public Category () {

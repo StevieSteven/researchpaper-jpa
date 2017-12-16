@@ -202,7 +202,7 @@ public class TestDataSetup {
         for (int i = 0; i < number; i++) {
             Float price = (float) (new Random().nextInt(100000)) / 100;
             Product p = new Product(faker.beer().name(), price, new Random().nextInt(10) + 1, faker.lorem().paragraph());
-            p.addCategory(category);
+            p.setCategory(category);
             productRepository.save(p);
         }
 

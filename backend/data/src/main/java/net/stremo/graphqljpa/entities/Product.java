@@ -15,8 +15,8 @@ public class Product extends BaseEntity{
     @Lob
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private final List<Category> categories = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Category category;
 
     @OneToMany(mappedBy = "product")
     private final List<Rating> ratings = new ArrayList<>();
@@ -71,12 +71,17 @@ public class Product extends BaseEntity{
         this.description = description;
     }
 
-    public List<Category> getCategories() {
-        return categories;
+
+    public Category getCategory() {
+        return category;
     }
 
-    public void addCategory (Category category) {
-        this.categories.add(category);
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<OrderItem> getOrderElements() {
+        return orderElements;
     }
 
     public List<Rating> getRatings() {
