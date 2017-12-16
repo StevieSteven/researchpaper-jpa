@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 
-import static graphql.Scalars.GraphQLID;
-import static graphql.Scalars.GraphQLInt;
-import static graphql.Scalars.GraphQLString;
+import static graphql.Scalars.*;
 import static graphql.schema.GraphQLArgument.newArgument;
 import static graphql.schema.GraphQLFieldDefinition.newFieldDefinition;
 import static graphql.schema.GraphQLObjectType.newObject;
@@ -56,6 +54,7 @@ public class Mutation {
 				.field(createPutProductInShoppingcardMutation())
 				.field(createFinishOrderMutation())
 				.field(createAddRatingMutation())
+				.field(createAddProductMutation())
 				.build();
 
 		schemaBuilder.mutation(mutation);
@@ -156,5 +155,36 @@ public class Mutation {
 				.build();
 	}
 
+	private GraphQLFieldDefinition createAddProductMutation() {
+		return newFieldDefinition()
+				.name("addProduct")
+				.type(new GraphQLTypeReference("Product"))
+				.argument(GraphQLArgument.newArgument().name("name").type(GraphQLString).build())
+				.argument(GraphQLArgument.newArgument().name("price").type(GraphQLFloat).build())
+				.argument(GraphQLArgument.newArgument().name("deliveryTime").type(GraphQLInt).build())
+				.argument(GraphQLArgument.newArgument().name("description").type(GraphQLString).build())
+				.dataFetcher(environment -> {
+					int deliveryTime = environment.getArgument("deliveryTime");
+					String description = environment.getArgument("description");
+					String name = environment.getArgument("name");
+					Float price = Float.parseFloat(environment.getArgument("price") + "");
+
+					if (deliveryTime < 1)
+						return null;
+
+					if(name == null){
+						return null;
+					}
+					if(description == null)
+						description = "";
+
+					Product p = new Product(name, price, deliveryTime, description);
+
+					productRepository.save(p);
+
+					return p;
+				})
+				.build();
+	}
 
 }
