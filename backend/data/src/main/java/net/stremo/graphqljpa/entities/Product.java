@@ -28,6 +28,9 @@ public class Product extends BaseEntity{
     @OneToMany(mappedBy = "product")
     private final List<OrderItem> orderElements = new ArrayList<>();
 
+    @Transient
+    private Status status = Status.LIEFERBAR;
+
     public Product () {
 
     }
@@ -100,4 +103,11 @@ public class Product extends BaseEntity{
         shoppingcardElements.add(shoppingcardElement);
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }
